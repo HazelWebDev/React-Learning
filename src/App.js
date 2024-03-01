@@ -8,23 +8,35 @@ const messages = [
 
 export default function App() {
 	const [step, setStep] = useState(1);
-  const [test, setTest] = useState({ name: "Kristen"})
+  const [isOpen, setIsOpen] = useState(true);
+
+  //name state reference:
+  // const [test, setTest] = useState({ name: "Kristen"})
 
   function handlePrevious() {
-    if(step >1) setStep(step - 1);
+    //callback function to update state based on curr state
+    if(step >1) setStep((currStep) => currStep - 1 );
   }
 
   function handleNext() {
-    if(step < 3) setStep(step + 1);
+    if(step < 3) {
+      setStep(currStep => currStep + 1);
+    }
 
     //bad practice, dont mutate objs like this!
     // test.name = "Mike";
-    
+
     //this is the correct way to use immutable state
-    setTest({name: "Jack"})
+    // setTest({name: "Jack"})
   }
 
 	return (
+    <>
+    <button className="close" onClick={() => setIsOpen((is) => !is)}>
+      &times;
+    </button>
+
+      {isOpen && (
 		<div className="steps">
 			<div className="numbers">
 				<div className={step >= 1 ? "active" : ""}>1</div>
@@ -34,7 +46,7 @@ export default function App() {
 
 			<p className="message">
 				Step {step}: {messages[step - 1]}
-        {test.name}
+        {/* {test.name} */}
 			</p>
 
 			<div className="buttons">
@@ -50,5 +62,7 @@ export default function App() {
 				</button>
 			</div>
 		</div>
+    )}
+    </>
 	);
 }
